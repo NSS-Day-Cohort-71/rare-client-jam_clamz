@@ -10,7 +10,7 @@ export const CreatePost = () => {
     const [category, setCategory] = useState('');
     const [headerImageUrl, setHeaderImageUrl] = useState('');
     const [currentUser, setCurrentUser] = useState({});
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getCurrentUser = async () => {
@@ -18,7 +18,11 @@ export const CreatePost = () => {
             const userId = localStorage.getItem('auth_token');
             if (userId) {
                 const userData = await fetchCurrentUser(userId);
-                setCurrentUser(userData);
+                if (userData.found) {
+                    setCurrentUser(userData.user);
+                } else {
+                    console.error('User not found');
+                }
             } else {
                 console.error('No user ID found in local storage');
             }
@@ -26,8 +30,6 @@ export const CreatePost = () => {
 
         getCurrentUser();
     }, []);
-
-    // TODO: I need a GET request supported in the API to get the current user's information
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,7 +44,7 @@ export const CreatePost = () => {
         };
 
         // Save post to database
-        savePost(post);
+        await savePost(post);
 
         navigate(`/my-posts/`);
     };
