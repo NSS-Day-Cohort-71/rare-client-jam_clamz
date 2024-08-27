@@ -14,3 +14,9 @@ export const savePost = async (post) => {
 export const getAllPosts = () => {
     return fetch("http://localhost:8088/Posts").then(res => res.json())
 }
+
+export const getPostsbyUserId = (userId) => {
+    return fetch(`http://localhost:8088/Posts?userId=${userId}&_expand=user`).then(res => res.json());
+}
+
+// TODO: we want to be able to &_expand=user on the above function
