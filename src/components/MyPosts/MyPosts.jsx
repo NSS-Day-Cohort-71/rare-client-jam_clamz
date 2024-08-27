@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import "./MyPosts.css";
-import { getPostsbyUserId } from "../../managers/PostManager";
+import { getPostsByUserId } from "../../managers/PostManager";
 
 export const MyPosts = () => {
     const [posts, setPosts] = useState([]);
     const userId = parseInt(localStorage.getItem('auth_token'));
 
     useEffect(() => {
-        getPostsbyUserId(userId).then(data => {
+        getPostsByUserId(userId).then(data => {
             setPosts(data);
         });
     }, []);
@@ -22,8 +22,8 @@ export const MyPosts = () => {
                         <div className="card">
                             <div className="card-content">
                                 <p className="title">{post.title}</p>
-                                <p className="subtitle">{post.author.first_name} {post.author.last_name}</p>
-                                <p>{post.category.label}</p>
+                                <p className="subtitle">{post.first_name} {post.last_name}</p>
+                                <p>{post.label}</p>
                             </div>
                             <footer className="card-footer">
                                 <button className="button is-link card-footer-item">Edit</button>
