@@ -5,6 +5,7 @@ import { Authorized } from "./Authorized"
 import { CreatePost } from "../components/CreatePost/CreatePost"
 import { Posts } from "../Posts/Posts"
 import { Categories } from "../components/Categories/Categories"
+import { MyPosts } from "../components/MyPosts/MyPosts"
 
 export const ApplicationViews = ({ token, setToken }) => {
   return <>
@@ -14,6 +15,7 @@ export const ApplicationViews = ({ token, setToken }) => {
       <Route element={<Authorized token={token} />}>
         {/* Add Routes here */}
         <Route path="/Create-Post" element={<CreatePost setToken={setToken}/>} />
+        <Route path="/My-Posts" element={<MyPosts setToken={setToken} />} />
         <Route path="posts" element={<Posts/>} />
         <Route path="category" element={<Categories/>} />
       </Route>
