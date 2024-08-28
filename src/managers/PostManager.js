@@ -16,7 +16,16 @@ export const getAllPosts = () => {
 }
 
 export const getPostsByUserId = async (userId) => {
-    return await fetch(`http://localhost:8088/Posts?userId=${userId}&_expand=user`).then(res => res.json());
-}
-
-// TODO: we want to be able to &_expand=user on the above function
+    try {
+        const response = await fetch(`http://localhost:8088/My-Posts?userId=${userId}&_expand=user`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error.message);
+        throw error;
+    }
+};
