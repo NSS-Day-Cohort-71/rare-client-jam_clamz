@@ -8,6 +8,9 @@
 
 import React, { useState } from 'react';
 import { createCategory } from '../../managers/CategoryManager';
+import { useNavigate } from 'react-router-dom';
+
+const navigate = useNavigate
 
 const CreateCategory = () => {
   // State to control the visibility of the creation form
@@ -28,6 +31,7 @@ const CreateCategory = () => {
   const makeCategory = () => {
     // This function will handle the POST request to create a new category
     createCategory(categoryName)
+    navigate(`/category`)
     console.log('Creating category:', categoryName);
     // TODO: Implement the POST request logic here
   };

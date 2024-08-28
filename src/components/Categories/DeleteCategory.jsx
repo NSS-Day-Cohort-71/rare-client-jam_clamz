@@ -6,7 +6,7 @@ import { deleteCategory } from "../../managers/CategoryManager";
 
 export const DeleteCategory = ({ categoryObj, onDelete }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
-    
+    const navigate = useNavigate()
 
     
   
@@ -15,6 +15,7 @@ export const DeleteCategory = ({ categoryObj, onDelete }) => {
         deleteCategory(categoryObj.id).then(() => {
           console.log('Category deleted:', categoryObj.id);
           onDelete(categoryObj.id); // Update UI accordingly
+        //   navigate(`/category`)
         }).catch(error => {
           console.error('Error deleting category:', error.message);
         });
@@ -25,7 +26,7 @@ export const DeleteCategory = ({ categoryObj, onDelete }) => {
       <div className="delete-category">
         {confirmDelete ? (
           <>
-            <button type="button" onClick={handleDelete}>Are You Sure?</button>
+            <button type="button" onClick={handleDelete}>Confirm</button>
             <button type="button" onClick={() => setConfirmDelete(false)}>Cancel</button>
           </>
         ) : (
