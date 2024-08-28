@@ -1,21 +1,27 @@
-.post-list {
-    margin-left: 20px;
+.post-list, .details-container {
+    margin: 20px;
 }
 
-.post-container {
+.post-container, .details-container {
     border: 1px solid black;
     padding: 15px;
     margin-bottom: 20px;
 }
 
-.post-title {
+.post-title, .details-title{
     font-size: 1.5rem;
 }
 
-.post-author {
+.post-author, .details-author {
     font-style: italic;
 }
 
-.post-category {
+.post-category, .details-author, .details-date{
     text-align: right;
 }
+
+.details-content {
+    text-align: center;
+    font-style: italic;
+}
+
