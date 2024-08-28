@@ -3,18 +3,19 @@ import "./CreatePost.css";
 import { fetchCurrentUser } from "../../managers/UserManager";
 import { savePost } from "../../managers/PostManager";
 import { useNavigate } from "react-router-dom";
+import { getAllCategories } from "../../managers/CategoryManager";
 
 export const CreatePost = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [category, setCategory] = useState('');
+    const [categoryId, setCategoryId] = useState('');
+    const [categories, setCategories] = useState([]);
     const [headerImageUrl, setHeaderImageUrl] = useState('');
     const [currentUser, setCurrentUser] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
         const getCurrentUser = async () => {
-            // Retrieve the primary key from local storage
             const userId = localStorage.getItem('auth_token');
             if (userId) {
                 const userData = await fetchCurrentUser(userId);
@@ -31,21 +32,34 @@ export const CreatePost = () => {
         getCurrentUser();
     }, []);
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const categoriesData = await getAllCategories();
+            setCategories(categoriesData);
+        };
+
+        fetchCategories();
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (categoryId === "") {
+            alert("Please select a category.");
+            return;
+        }
+
         const post = {
             title,
             content,
-            category,
+            category: parseInt(categoryId, 10), // Ensure categoryId is sent as a number
             publicationDate: new Date().toISOString(),
             headerImageUrl,
             author: currentUser.first_name,
             approved: true
         };
 
-        // Save post to database
         await savePost(post);
-
         navigate(`/my-posts/`);
     };
 
@@ -68,7 +82,14 @@ export const CreatePost = () => {
                 <div className="field">
                     <label className="label">Category</label>
                     <div className="control">
-                        <input className="input" type="text" value={category} onChange={(e) => setCategory(e.target.value)} required />
+                        <div className="select">
+                            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} required>
+                                <option value="">Select a category</option>
+                                {categories.map((cat) => (
+                                    <option key={cat.id} value={cat.id}>{cat.label}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div className="field">
@@ -77,8 +98,10 @@ export const CreatePost = () => {
                         <input className="input" type="text" value={headerImageUrl} onChange={(e) => setHeaderImageUrl(e.target.value)} />
                     </div>
                 </div>
-                <div className="control">
-                    <button className="button is-primary" type="submit">Create Post</button>
+                <div className="field">
+                    <div className="control">
+                        <button className="button is-primary" type="submit">Submit</button>
+                    </div>
                 </div>
             </form>
         </div>
