@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
-import "./CreatePost.css";
-import { fetchCurrentUser } from "../../managers/UserManager";
-import { savePost } from "../../managers/PostManager";
-import { useNavigate } from "react-router-dom";
+import "./EditPost.css";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getPostById, updatePost } from "../../managers/PostManager";
 import { getAllCategories } from "../../managers/CategoryManager";
+import { fetchCurrentUser } from "../../managers/UserManager";
 
-export const CreatePost = () => {
+export const EditPost = () => {
+    const { postId } = useParams();
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [categoryId, setCategoryId] = useState('');
-    const [categories, setCategories] = useState([]);
     const [headerImageUrl, setHeaderImageUrl] = useState('');
     const [currentUser, setCurrentUser] = useState({});
-    const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
+        // fetch current user data
         const getCurrentUser = async () => {
             const userId = localStorage.getItem('auth_token');
             if (userId) {
@@ -33,13 +35,24 @@ export const CreatePost = () => {
     }, []);
 
     useEffect(() => {
+        // Fetch categories from the database
         const fetchCategories = async () => {
             const categoriesData = await getAllCategories();
             setCategories(categoriesData);
         };
+                
+        // Fetch post data by ID
+        const fetchPost = async () => {
+            const postData = await getPostById(postId);
+            setTitle(postData.title);
+            setContent(postData.content);
+            setCategoryId(postData.category_id);
+            setHeaderImageUrl(postData.image_url);
+        };
 
         fetchCategories();
-    }, []);
+        fetchPost();
+    }, [postId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -49,23 +62,23 @@ export const CreatePost = () => {
             return;
         }
 
-        const post = {
+        const updatedPost = {
             title,
             content,
             category: parseInt(categoryId, 10),
-            publicationDate: new Date().toISOString(),
             headerImageUrl,
-            author: currentUser.first_name,
+            publicationDate: new Date().toISOString(),
+            author: currentUser.first_name, 
             approved: true
         };
 
-        await savePost(post);
-        navigate(`/my-posts/`);
+        await updatePost(postId, updatedPost);
+        navigate(`/Posts/` & postId);
     };
 
     return (
         <div className="container">
-            <h1 className="title">Create Post</h1>
+            <h1 className="title">Edit Post</h1>
             <form onSubmit={handleSubmit}>
                 <div className="field">
                     <label className="label">Title</label>
