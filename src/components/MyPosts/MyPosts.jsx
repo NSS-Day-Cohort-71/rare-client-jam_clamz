@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import "./MyPosts.css";
 import { getPostsByUserId } from "../../managers/PostManager";
+import { useNavigate } from "react-router-dom";
 
 export const MyPosts = () => {
     const [posts, setPosts] = useState([]);
     const userId = parseInt(localStorage.getItem('auth_token'));
+    const navigate = useNavigate();
 
     useEffect(() => {
         getPostsByUserId(userId).then(data => {
@@ -26,7 +28,7 @@ export const MyPosts = () => {
                                 <p>{post.label}</p>
                             </div>
                             <footer className="card-footer">
-                                <button className="button is-link card-footer-item">Edit</button>
+                                <button className="button is-link card-footer-item" onClick={() => navigate(`/posts/edit/${post.id}`)}>Edit</button>
                                 <button className="button is-danger card-footer-item">Delete</button>
                                 <button className="button is-primary card-footer-item">Publish</button>
                                 <button className="button is-warning card-footer-item">Unpublish</button>

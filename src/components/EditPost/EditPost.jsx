@@ -73,7 +73,7 @@ export const EditPost = () => {
         };
 
         await updatePost(postId, updatedPost);
-        navigate(`/Posts/` & postId);
+        navigate(`/Posts/` + postId);
     };
 
     return (
@@ -114,6 +114,7 @@ export const EditPost = () => {
                 <div className="field">
                     <div className="control">
                         <button className="button is-primary" type="submit">Submit</button>
+                        <button className="button is-secondary" onChange={(e) => {navigate(`/Posts/`)}}>Cancel</button>
                     </div>
                 </div>
             </form>
