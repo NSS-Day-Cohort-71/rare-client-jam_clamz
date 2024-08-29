@@ -35,14 +35,14 @@ export const NavBar = ({ token, setToken }) => {
               ?
                 <>
                   <Link to="/posts" className="navbar-item">Posts</Link>
+                  <Link to="/Create-Post" className="navbar-item">Create Post</Link>
+                  <Link to="/My-Posts" className="navbar-item">My Posts</Link>
                   <Link to="/category" className="navbar-item">Category Manager</Link>
                 </>
               :
               ""
           }
         </div>
-        {token ? <Link to="/Create-Post" className="navbar-item">Create Post</Link> : ""}
-        {token ? <Link to="/My-Posts" className="navbar-item">My Posts</Link> : ""}
 
         <div className="navbar-end">
           <div className="navbar-item">
