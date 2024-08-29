@@ -48,3 +48,12 @@ export const updatePost = async (postId, post) => {
 
     return updatedPost;
 }
+export const deletePost = (postId) => {
+    return fetch(`http://localhost:8088/Posts/${postId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+  })
+}
