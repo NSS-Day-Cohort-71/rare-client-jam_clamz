@@ -45,7 +45,7 @@ export const MyPosts = () => {
                                     </>
                                     ) : (
                                         <>
-                                            <button className="button is-link card-footer-item">Edit</button>
+                                            <button className="button is-link card-footer-item" onClick={() => navigate(`/posts/edit/${post.id}`)}>Edit</button>
                                             <button className="button is-danger card-footer-item" onClick={() => setConfirmDelete(true)}>Delete</button>
                                             <button className="button is-primary card-footer-item">Publish</button>
                                             <button className="button is-warning card-footer-item">Unpublish</button>
