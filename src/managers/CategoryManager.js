@@ -1,5 +1,5 @@
-export const createCategory = (category) => {
-  fetch("http://localhost:8088/category", {
+export const createCategory = async (category) => {
+  await fetch("http://localhost:8088/category", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -12,8 +12,8 @@ export const createCategory = (category) => {
     return fetch("http://localhost:8088/category").then(res => res.json())
 }
 
-export const deleteCategory = (category) => {
-  return fetch(`http://localhost:8088/category/${category}`, {
+export const deleteCategory = (categoryId) => {
+  return fetch(`http://localhost:8088/category/${categoryId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

@@ -15,7 +15,6 @@ export const DeleteCategory = ({ categoryObj, onDelete }) => {
         deleteCategory(categoryObj.id).then(() => {
           console.log('Category deleted:', categoryObj.id);
           onDelete(categoryObj.id); // Update UI accordingly
-        //   navigate(`/category`)
         }).catch(error => {
           console.error('Error deleting category:', error.message);
         });
