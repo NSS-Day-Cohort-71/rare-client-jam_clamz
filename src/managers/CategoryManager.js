@@ -16,14 +16,20 @@ export const deleteCategory = (categoryId) => {
   return fetch(`http://localhost:8088/category/${categoryId}`, {
     method: "DELETE",
     headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(response => {
-    if (response.ok) {
-      // If the response is OK but contains no content, return a simple confirmation
-      return Promise.resolve();
-    } else {
-      return response.json(); // This handles any error messages returned in JSON format
-    }
-  });
-};
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(category)
+  }).then(res => res.json())
+}
+
+export const updateCategory = (categoryId, updatedCategoryData) => {
+  return fetch(`http://localhost:8088/category/${categoryId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(updatedCategoryData)
+  }).then(res => { res.json();});
+}
