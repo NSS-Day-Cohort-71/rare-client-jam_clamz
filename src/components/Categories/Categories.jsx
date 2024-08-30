@@ -4,6 +4,7 @@ import {  getAllCategories } from "../../managers/CategoryManager"
 import CreateCategory from "../CreateCategory/CreateCategory"
 import { DeleteCategory } from "./DeleteCategory"
 import { useNavigate } from "react-router-dom"
+import EditCategory from "./EditCategory"
 
 export const Categories = () => {
     const [allCategories, setAllCategories] = useState([])
@@ -30,6 +31,7 @@ export const Categories = () => {
                     <div className="category-container" key={categoryObj.id}>
                         <h2 className="category-label">{categoryObj.label}</h2>
                     
+                    <EditCategory categoryObj={categoryObj} />
                     <DeleteCategory categoryObj={categoryObj} onDelete={onDelete} />
                     </div>
             ))}

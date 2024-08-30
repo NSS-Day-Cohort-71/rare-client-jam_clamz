@@ -22,3 +22,14 @@ export const deleteCategory = (category) => {
     body: JSON.stringify(category)
   }).then(res => res.json())
 }
+
+export const updateCategory = (categoryId, updatedCategoryData) => {
+  return fetch(`http://localhost:8088/category/${categoryId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(updatedCategoryData)
+  }).then(res => { res.json();});
+}
