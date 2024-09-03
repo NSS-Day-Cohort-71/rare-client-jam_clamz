@@ -47,6 +47,9 @@ export const PostDetails = () => {
             <div className="details-content">{post.content}</div>
             <div className="details-date">Published on: {post.publication_date}</div>
             <div className="details-author">Written by: {post.first_name} {post.last_name}</div>
+            <div>
+                <button className="button is-primary" onClick={() => navigate(`/posts/comment/${postId}`)}>Add a Comment</button>
+            </div>
             {isAuthor && (
                 <div>
                     <button className="button is-primary" onClick={() => navigate(`/posts/edit/${postId}`)}>Edit</button>
