@@ -8,6 +8,7 @@ import { Categories } from "../components/Categories/Categories"
 import { MyPosts } from "../components/MyPosts/MyPosts"
 import { PostDetails } from "../Posts/PostDetails"
 import { EditPost } from "../components/EditPost/EditPost"
+import { Comment } from "../components/Comments/Comment"
 
 export const ApplicationViews = ({ token, setToken }) => {
   return <>
@@ -21,6 +22,7 @@ export const ApplicationViews = ({ token, setToken }) => {
         <Route path="posts">
           <Route index element={<Posts />} />
           <Route path=":postId" element={<PostDetails />} />
+          <Route path="comment/:postId" element={<Comment />} />
           <Route path="edit/:postId" element={<EditPost setToken={setToken} />} /> 
         </Route>
         <Route path="category" element={<Categories/>} />
