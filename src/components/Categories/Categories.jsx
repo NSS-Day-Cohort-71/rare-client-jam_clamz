@@ -6,6 +6,7 @@ import CreateCategory from "../CreateCategory/CreateCategory"
 import { DeleteCategory } from "./DeleteCategory"
 import { useNavigate } from "react-router-dom"
 import EditCategory from "./EditCategory"
+import CreateTag from "../Tags/CreateTags"
 
 
 export const Categories = () => {
@@ -47,8 +48,7 @@ export const Categories = () => {
                 <CreateCategory onCategoryCreated={fetchCategories} />
             </div>
             <div>
-                {/* Add the Fetch button
-                <button onClick={fetchCategories}>Fetch Categories</button> */}
+                
             </div>
         </>
     );
