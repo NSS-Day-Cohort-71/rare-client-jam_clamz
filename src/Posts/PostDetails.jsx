@@ -56,6 +56,11 @@ export const PostDetails = () => {
                     <button className="button is-secondary">Delete</button>
                 </div>
             )}
+            {isAuthor && (
+            <div>
+                <button className="button is-info" onClick={() => navigate(`/Comments/${postId}`)}>See Comments</button>
+            </div>
+            )}
         </div>
     )
 }
