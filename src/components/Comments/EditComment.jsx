@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { getCommentById } from "../../managers/CommentManager"
+import { getCommentById, updateComment } from "../../managers/CommentManager"
 
 export const EditComment = () => {
 
