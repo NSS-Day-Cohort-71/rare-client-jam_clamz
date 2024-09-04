@@ -3,12 +3,14 @@ import "./MyPosts.css";
 import { deletePost, getPostsByUserId } from "../../managers/PostManager";
 import { useNavigate } from "react-router-dom";
 
+
 export const MyPosts = () => {
     const [posts, setPosts] = useState([]);
     const userId = parseInt(localStorage.getItem('auth_token'));
     const navigate = useNavigate();
     const [triggerReRender, setTriggerReRender] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
+
 
     useEffect(() => {
         getPostsByUserId(userId).then(data => {
@@ -24,6 +26,7 @@ export const MyPosts = () => {
         })
     }
 
+ 
 
     return (
         <div className="my-posts container">
@@ -36,7 +39,7 @@ export const MyPosts = () => {
                                 <p className="title">{post.title}</p>
                                 <p className="subtitle">{post.first_name} {post.last_name}</p>
                                 <p>{post.label}</p>
-                            </div>
+                                </div>
                             <footer className="card-footer">
                                 {confirmDelete ? (
                                     <>

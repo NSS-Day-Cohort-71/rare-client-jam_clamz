@@ -4,9 +4,8 @@ import "./Categories.css"
 import {  getAllCategories } from "../../managers/CategoryManager"
 import CreateCategory from "../CreateCategory/CreateCategory"
 import { DeleteCategory } from "./DeleteCategory"
-import { useNavigate } from "react-router-dom"
 import EditCategory from "./EditCategory"
-import CreateTag from "../Tags/CreateTags"
+
 
 
 export const Categories = () => {
