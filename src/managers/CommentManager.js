@@ -28,3 +28,8 @@ export const deleteComment = async (commentId) => {
 
     return await response.json();
 }
+
+export const getCommentById = async (commentId) => {
+    const response = await fetch(`http://localhost:8088/Comments/${commentId}`)
+    return await response.json()
+}

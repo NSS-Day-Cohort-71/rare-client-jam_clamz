@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { deleteComment, getCommentsByPostId } from "../../managers/CommentManager"
 import { getPostById } from "../../managers/PostManager"
 import { fetchCurrentUser } from "../../managers/UserManager"
@@ -10,6 +10,7 @@ export const PostComments = ({token}) => {
     const [currentUser, setCurrentUser] = useState({})
     const [commentToDelete, setCommentToDelete] = useState(null)
     const { postId } = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
         getCommentsByPostId(postId).then(data => {
@@ -59,6 +60,9 @@ export const PostComments = ({token}) => {
                                     )}
                                 </div>
                             )}
+                            <div>
+                                <button className="button is-warning" onClick={() => {navigate(`/Comments/edit/${comment.id}`)}}>Edit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
