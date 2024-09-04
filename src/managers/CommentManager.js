@@ -28,3 +28,18 @@ export const deleteComment = async (commentId) => {
 
     return await response.json();
 }
+
+export const getCommentById = async (commentId) => {
+    const response = await fetch(`http://localhost:8088/Comments/${commentId}`)
+    return await response.json()
+}
+
+export const updateComment = (comment) => {
+    return fetch(`http://localhost:8088/Comments/${comment.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(comment)
+    })
+}
