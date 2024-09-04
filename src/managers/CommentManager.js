@@ -22,5 +22,9 @@ export const deleteComment = async (commentId) => {
         method: 'DELETE'
     });
 
+    if (response.status === 204) {
+        return null;
+    }
+
     return await response.json();
 }

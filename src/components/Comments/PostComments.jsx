@@ -26,12 +26,14 @@ export const PostComments = ({token}) => {
         }
 
         getCurrentUser()
-    }, [postId])
+    }, [postId, token])
 
     const handleDelete = async (commentId) => {
         await deleteComment(commentId)
-        setComments(comments.filter(comment => comment.id !== commentId))
         setCommentToDelete(null)
+        getCommentsByPostId(postId).then(data => {
+            setComments(data)
+        })
     }
 
     return  (
@@ -65,9 +67,3 @@ export const PostComments = ({token}) => {
     
     )
 }
-
-// check out my current token for the user
-// if author, show delete button
-// create a two-step delete process with Are you sure? prompt & Confirm/Cancel buttons
-// if confirm, delete comment and update state
-// if cancel, revert to previous button showing
