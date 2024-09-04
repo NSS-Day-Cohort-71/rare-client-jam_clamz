@@ -46,7 +46,7 @@ export const PostComments = ({token}) => {
                             <p>{comment.content}</p>
                             <p><strong>Author:</strong> {comment.author.username}</p>
                             <p><strong>Created on:</strong> {new Date(comment.date).toLocaleDateString()}</p>
-                            {currentUser.id === comment.author.id && (
+                            {currentUser?.user?.id === comment.author_id && (
                                 <div>
                                     {commentToDelete === comment.id ? (
                                         <div>
