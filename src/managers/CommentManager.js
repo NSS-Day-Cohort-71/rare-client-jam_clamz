@@ -16,3 +16,15 @@ export const getCommentsByPostId = async (postId) => {
     const response = await fetch(`http://localhost:8088/Comments?post_id=${postId}&_expand=author`)
     return await response.json()
 }
+
+export const deleteComment = async (commentId) => {
+    const response = await fetch(`http://localhost:8088/Comments/${commentId}`, {
+        method: 'DELETE'
+    });
+
+    if (response.status === 204) {
+        return null;
+    }
+
+    return await response.json();
+}

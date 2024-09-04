@@ -1,16 +1,14 @@
-// TODO: Post Details will have a View Comments button that re-direct them to comments for that post where a title of the related Post should be displayed at the top of the page
-// needs to display the following information for each comment:
-// - Subject
-// - Author's Display Name
-
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getCommentsByPostId } from "../../managers/CommentManager"
+import { deleteComment, getCommentsByPostId } from "../../managers/CommentManager"
 import { getPostById } from "../../managers/PostManager"
+import { fetchCurrentUser } from "../../managers/UserManager"
 
-export const PostComments = () => {
+export const PostComments = ({token}) => {
     const [comments, setComments] = useState([])
     const [post, setPost] = useState({})
+    const [currentUser, setCurrentUser] = useState({})
+    const [commentToDelete, setCommentToDelete] = useState(null)
     const { postId } = useParams()
 
     useEffect(() => {
@@ -21,8 +19,22 @@ export const PostComments = () => {
         getPostById(postId).then(data => {
             setPost(data)
         })
-    }, [postId])
 
+        const getCurrentUser = async () => {
+            const userData = await fetchCurrentUser(token)
+            setCurrentUser(userData)
+        }
+
+        getCurrentUser()
+    }, [postId, token])
+
+    const handleDelete = async (commentId) => {
+        await deleteComment(commentId)
+        setCommentToDelete(null)
+        getCommentsByPostId(postId).then(data => {
+            setComments(data)
+        })
+    }
 
     return  (
         <div className="container">
@@ -34,6 +46,19 @@ export const PostComments = () => {
                             <p>{comment.content}</p>
                             <p><strong>Author:</strong> {comment.author.username}</p>
                             <p><strong>Created on:</strong> {new Date(comment.date).toLocaleDateString()}</p>
+                            {currentUser?.user?.id === comment.author_id && (
+                                <div>
+                                    {commentToDelete === comment.id ? (
+                                        <div>
+                                            <p>Are you sure?</p>
+                                            <button className="button is-danger" onClick={() => handleDelete(comment.id)}>Confirm</button>
+                                            <button className="button" onClick={() => setCommentToDelete(null)}>Cancel</button>
+                                        </div>
+                                    ) : (
+                                        <button className="button is-danger" onClick={() => setCommentToDelete(comment.id)}>Delete</button>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
