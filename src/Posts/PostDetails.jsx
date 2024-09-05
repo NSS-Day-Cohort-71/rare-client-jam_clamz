@@ -12,7 +12,7 @@ export const PostDetails = () => {
     const {postId} = useParams()
     const navigate = useNavigate()
     const [currentUser, setCurrentUser] = useState({});
-    const [tags, setTags] = useState([]);
+    const [postTags, setPostTags] = useState([]);
     const [triggerReRender, setTriggerReRender] = useState(false)
 
     useEffect(() => {
@@ -45,8 +45,8 @@ export const PostDetails = () => {
     const isAuthor = currentUser.id === post.user_id
 
     useEffect(() => {
-        getPostTags(postId).then(setTags); // Fetch tags associated with the post
-      }, [postId]);
+        getPostTags(postId).then(setPostTags); // Fetch tags associated with the post
+      }, [postId, triggerReRender]);
 
     return (
         <div className="details-container">
@@ -58,7 +58,7 @@ export const PostDetails = () => {
             <div>
                                     <h2>Tags for this Post</h2>
                                     <ul>
-                                        {tags.map((tag) => (
+                                        {postTags.map((tag) => (
                                         <li key={tag.id}>{tag.label}</li>
                                         ))}
                                     </ul>
@@ -66,7 +66,7 @@ export const PostDetails = () => {
             <div>
                 <button className="button is-primary" onClick={() => navigate(`/posts/comment/${postId}`)}>Add a Comment</button>
             </div>
-            <TagPost setTriggerReRender={setTriggerReRender} triggerReRender={triggerReRender}/>
+            <TagPost setTriggerReRender={setTriggerReRender} triggerReRender={triggerReRender} setPostTags={setPostTags} />
             {isAuthor && (
                 <div>
                     <button className="button is-primary" onClick={() => navigate(`/posts/edit/${postId}`)}>Edit</button>

@@ -58,3 +58,22 @@ export const updateTag = (tag) => {
       body: JSON.stringify(tag)
   })
 }
+
+export const removePostTags = (postId, tagIds) => {
+  return fetch(`http://localhost:8088/posttags`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      post_id: postId,
+      tag_ids: tagIds
+    }),
+  }).then((res) => {
+    if (res.status === 204) {
+      return Promise.resolve(); // If no content is returned, resolve the promise
+    } else {
+      return res.json(); // Otherwise, return the response as JSON
+    }
+  });
+};
