@@ -32,7 +32,14 @@ export const savePostTags = (postId, tagIds) => {
 };
 
 export const deleteTag = async (tagId) => {
-    await fetch(`http://localhost:8088/tags/${tagId}`, {
-      method: "DELETE",
-    }).then(response => response.json())
-    }
+  const response = await fetch(`http://localhost:8088/Tags/${tagId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete the tag.');
+  }
+};
