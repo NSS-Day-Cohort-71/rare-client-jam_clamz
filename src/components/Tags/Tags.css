@@ -1,0 +1,13 @@
+.tag-list {
+    margin-left: 20px;
+}
+
+.tag-container {
+    border: 1px solid black;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.tag-label {
+    font-size: 1.5rem;
+}
