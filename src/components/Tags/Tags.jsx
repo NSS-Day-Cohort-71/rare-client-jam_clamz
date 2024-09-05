@@ -1,49 +1,85 @@
-
 import { useEffect, useState } from "react"
 import "./Tags.css"
-
 import CreateTags from "./CreateTags";
-import { getAllTags } from "../../managers/TagManager";
-
+import { deleteTag, getAllTags } from "../../managers/TagManager";
 
 
 export const Tags = () => {
     const [allTags, setAllTags] = useState([]);
-
-    // Function to fetch tags from the API
-    const fetchTags = () => {
-        getAllTags().then(data => {
-            setAllTags(data);
-        });
-    };
+    const [tagToDelete, setTagToDelete] = useState(null)
 
     // Initial fetch of tags when the component mounts
     useEffect(() => {
+        const fetchTags = () => {
+            getAllTags().then(data => {
+                setAllTags(data);
+            });
+        };
+
         fetchTags();
     }, []);
 
+    const handleDelete = async (tagId) => {
+        await deleteTag(tagId)
+        getAllTags().then(data => {
+            setAllTags(data)
+        })
+        setTagToDelete(null)
+    }
 
-    
+    const confirmDelete = (tagId) => {
+        setTagToDelete(tagId)
+    }
+
+    const cancelDelete = () => {
+        setTagToDelete(null)
+    }
 
     return (
         <>
-            <div className="tag-list">
-                {allTags.map(tagObj => (
-                    <div className="tag-container" key={tagObj.id}>
-                        <h2 className="tag-label">{tagObj.label}</h2>
-                    
-
-
-                    </div>
-                ))}
-            </div>
-            <div>
-              
-                <CreateTags onTagCreated={fetchTags} />
-            </div>
-            <div>
-                
+            <div className="container">
+                <div className="columns is-multiline">
+                    {allTags.map(tagObj => (
+                        <div className="column is-one-quarter" key={tagObj.id}>
+                            <div className="box">
+                                <div className="level">
+                                    <div className="level-left">
+                                        <h2 className="title is-4">{tagObj.label}</h2>
+                                    </div>
+                                    <div className="level-right">
+                                        {tagToDelete === tagObj.id ? (
+                                            <>
+                                                <button
+                                                    className="button is-danger is-small"
+                                                    onClick={() => handleDelete(tagObj.id)}
+                                                >
+                                                    Confirm
+                                                </button>
+                                                <button
+                                                    className="button is-light is-small"
+                                                    onClick={cancelDelete}
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <button
+                                                className="button is-danger is-small"
+                                                onClick={() => confirmDelete(tagObj.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="section">
+                    <CreateTags onTagCreated={() => getAllTags().then(data => setAllTags(data))} />
+                </div>
             </div>
         </>
-    );
+    )
 };
