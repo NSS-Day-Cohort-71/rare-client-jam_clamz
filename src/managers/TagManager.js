@@ -43,3 +43,18 @@ export const deleteTag = async (tagId) => {
     throw new Error('Failed to delete the tag.');
   }
 };
+
+export const getTagById = async (tagId) => {
+  const response = await fetch(`http://localhost:8088/tags/${tagId}`)
+  return await response.json()
+}
+
+export const updateTag = (tag) => {
+  return fetch(`http://localhost:8088/Tags/${tag.id}`, {
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(tag)
+  })
+}
