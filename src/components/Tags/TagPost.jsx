@@ -15,7 +15,7 @@ const TagPost = ({ triggerReRender, setTriggerReRender }) => {
   useEffect(() => {
     getAllTags().then(setTags);
     getPostTags(postId).then(setAppliedTags); // Fetch applied tags for the post
-  }, [postId, ]);
+  }, [postId, triggerReRender ]);
 
   // Toggle visibility of the tag management section
   const handleToggleVisibility = () => {
@@ -46,7 +46,8 @@ const TagPost = ({ triggerReRender, setTriggerReRender }) => {
     setIsVisible(false); // Hide the tag management section
     setTimeout(() => {
       setTriggerReRender(!triggerReRender); // Trigger re-render after saving
-    
+      setSelectedTagsToAdd([])
+      setSelectedTagsToRemove([])
     navigate(`/posts/${postId}`); // Refresh the page for the post
   }, 500);
     
@@ -58,7 +59,8 @@ const TagPost = ({ triggerReRender, setTriggerReRender }) => {
     setIsVisible(false); // Hide the tag management section
     setTimeout(() => {
       setTriggerReRender(!triggerReRender); // Trigger re-render after saving
-    
+      setSelectedTagsToAdd([])
+      setSelectedTagsToRemove([])
     navigate(`/posts/${postId}`); // Refresh the page for the post
   }, 500);
     
