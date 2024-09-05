@@ -11,6 +11,7 @@ import { EditPost } from "../components/EditPost/EditPost"
 import { Comment } from "../components/Comments/Comment"
 import { PostComments } from "../components/Comments/PostComments"
 import { EditComment } from "../components/Comments/EditComment"
+import { Tags } from "../components/Tags/Tags"
 
 export const ApplicationViews = ({ token, setToken }) => {
   return <>
@@ -30,6 +31,7 @@ export const ApplicationViews = ({ token, setToken }) => {
         <Route path="Comments/:postId" element={<PostComments token={token} />} />
         <Route path="Comments/edit/:commentId" element={<EditComment />} />
         <Route path="category" element={<Categories/>} />
+        <Route path="tags" element={<Tags/>} />
       </Route>
     </Routes>
   </>

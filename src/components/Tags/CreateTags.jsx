@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createTag } from "../../managers/TagManager";
 
-const CreateTag = ({ onTagCreated }) => {
+const CreateTags = ({ onTagCreated }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [tagName, setTagName] = useState('');
     
@@ -49,4 +49,4 @@ const CreateTag = ({ onTagCreated }) => {
     );
   };
   
-  export default CreateTag;
+  export default CreateTags;
