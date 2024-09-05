@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import "./Tags.css"
 import CreateTags from "./CreateTags";
 import { deleteTag, getAllTags } from "../../managers/TagManager";
+import { useNavigate } from "react-router-dom";
 
 
 export const Tags = () => {
     const [allTags, setAllTags] = useState([]);
     const [tagToDelete, setTagToDelete] = useState(null)
+    const navigate = useNavigate()
 
     // Initial fetch of tags when the component mounts
     useEffect(() => {
@@ -63,12 +65,22 @@ export const Tags = () => {
                                                 </button>
                                             </>
                                         ) : (
+                                            <>
                                             <button
                                                 className="button is-danger is-small"
                                                 onClick={() => confirmDelete(tagObj.id)}
                                             >
                                                 Delete
                                             </button>
+                                            <button
+                                                className="button is-warning is-small"
+                                                onClick={() => {
+                                                    navigate(`edit/${tagObj.id}`)
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                            </>
                                         )}
                                     </div>
                                 </div>

@@ -19,7 +19,7 @@ export const deleteCategory = (categoryId) => {
       "Content-Type": "application/json",
       "Accept": "application/json"
     },
-    body: JSON.stringify(category)
+    body: JSON.stringify(categoryId)
   }).then(res => res.json())
 }
 
