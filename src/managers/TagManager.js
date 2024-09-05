@@ -30,3 +30,9 @@ export const savePostTags = (postId, tagIds) => {
     }),
   });
 };
+
+export const deleteTag = async (tagId) => {
+    await fetch(`http://localhost:8088/tags/${tagId}`, {
+      method: "DELETE",
+    }).then(response => response.json())
+    }
