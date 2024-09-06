@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getPostById } from "../managers/PostManager"
+import { deletePost, getPostById } from "../managers/PostManager"
 import { useNavigate, useParams } from "react-router-dom"
 import "./Posts.css"
 import { fetchCurrentUser } from "../managers/UserManager"
@@ -14,6 +14,7 @@ export const PostDetails = () => {
     const [currentUser, setCurrentUser] = useState({});
     const [postTags, setPostTags] = useState([]);
     const [triggerReRender, setTriggerReRender] = useState(false)
+    const [postToDelete, setPostToDelete] = useState(null)
 
     useEffect(() => {
         // fetch current user data
@@ -48,6 +49,20 @@ export const PostDetails = () => {
         getPostTags(postId).then(setPostTags); // Fetch tags associated with the post
       }, [postId, triggerReRender]);
 
+      const handleDelete = (e) => {
+        e.preventDefault()
+        const postToBeDeleted = parseInt(e.target.id)
+        deletePost(postToBeDeleted).then(() => {
+            setTriggerReRender(!triggerReRender)
+            navigate(`/posts`)
+        })
+    }  
+
+      const confirmDelete = (postId) => {
+        setPostToDelete(postId)
+    }
+ 
+
     return (
         <div className="details-container">
             <div className="details-title">{post.title}</div>
@@ -68,10 +83,20 @@ export const PostDetails = () => {
             </div>
             <TagPost setTriggerReRender={setTriggerReRender} triggerReRender={triggerReRender} setPostTags={setPostTags} />
             {isAuthor && (
-                <div>
-                    <button className="button is-primary" onClick={() => navigate(`/posts/edit/${postId}`)}>Edit</button>
-                    <button className="button is-secondary">Delete</button>
-                </div>
+                <>{postToDelete === postId ? (
+                    <div>
+                        <button type="button is-danger card-footer-item" onClick={handleDelete} id={postId}>Confirm</button>
+                        <button type="button is-primary card-footer-item"  onClick={() => confirmDelete(null)}>Cancel</button>
+                                    
+                    </div>
+                ) :(
+                    <div>
+                        <button className="button is-primary" onClick={() => navigate(`/posts/edit/${postId}`)}>Edit</button>
+                        <button className="button is-secondary" onClick={() => confirmDelete(postId)}>Delete</button>
+                    </div>
+                )
+                }
+                </>
             )}
             {isAuthor && (
             <div>

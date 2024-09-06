@@ -9,7 +9,8 @@ export const MyPosts = () => {
     const userId = parseInt(localStorage.getItem('auth_token'));
     const navigate = useNavigate();
     const [triggerReRender, setTriggerReRender] = useState(false)
-    const [confirmDelete, setConfirmDelete] = useState(false)
+    // const [confirmDelete, setConfirmDelete] = useState(null)
+    const [postToDelete, setPostToDelete] = useState(null)
 
 
     useEffect(() => {
@@ -20,12 +21,15 @@ export const MyPosts = () => {
 
     const handleDelete = (e) => {
         e.preventDefault()
-        const postToDelete = parseInt(e.target.id)
-        deletePost(postToDelete).then(() => {
+        const postToBeDeleted = parseInt(e.target.id)
+        deletePost(postToBeDeleted).then(() => {
             setTriggerReRender(!triggerReRender)
         })
     }
 
+    const confirmDelete = (postId) => {
+        setPostToDelete(postId)
+    }
  
 
     return (
@@ -41,15 +45,15 @@ export const MyPosts = () => {
                                 <p>{post.label}</p>
                                 </div>
                             <footer className="card-footer">
-                                {confirmDelete ? (
+                                {postToDelete === post.id ? (
                                     <>
                                         <button type="button is-danger card-footer-item" onClick={handleDelete} id={post.id}>Confirm</button>
-                                        <button type="button is-primary card-footer-item"  onClick={() => setConfirmDelete(false)}>Cancel</button>
+                                        <button type="button is-primary card-footer-item"  onClick={() => confirmDelete(null)}>Cancel</button>
                                     </>
                                     ) : (
                                         <>
                                             <button className="button is-link card-footer-item" onClick={() => navigate(`/posts/edit/${post.id}`)}>Edit</button>
-                                            <button className="button is-danger card-footer-item" onClick={() => setConfirmDelete(true)}>Delete</button>
+                                            <button className="button is-danger card-footer-item" onClick={() => confirmDelete(post.id)}>Delete</button>
                                             <button className="button is-primary card-footer-item">Publish</button>
                                             <button className="button is-warning card-footer-item">Unpublish</button>
                                         </>

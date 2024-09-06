@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useState } from "react"
-import { getAllPosts } from "../managers/PostManager"
+import { deletePost, getAllPosts } from "../managers/PostManager"
 import "./Posts.css"
 import { Link, useNavigate } from "react-router-dom"
 import { fetchCurrentUser } from "../managers/UserManager"
@@ -9,6 +9,8 @@ export const Posts = () => {
     const [allPosts, setAllPosts] = useState([])
     const navigate = useNavigate()
     const [currentUser, setCurrentUser] = useState({});
+    const [postToDelete, setPostToDelete] = useState(null)
+    const [triggerReRender, setTriggerReRender] = useState(false)
 
     useEffect(() => {
         // fetch current user data
@@ -34,7 +36,19 @@ export const Posts = () => {
         getAllPosts().then(data => {
             setAllPosts(data)
         })
-    }, [setAllPosts])
+    }, [setAllPosts, triggerReRender])
+
+    const handleDelete = (e) => {
+        e.preventDefault()
+        const postToBeDeleted = parseInt(e.target.id)
+        deletePost(postToBeDeleted).then(() => {
+            setTriggerReRender(!triggerReRender)
+        })
+    }
+
+    const confirmDelete = (postId) => {
+        setPostToDelete(postId)
+    }
 
     return (
         <div className="post-list">
@@ -49,8 +63,19 @@ export const Posts = () => {
                             <div className="post-category">{post.label}</div>
                             {isAuthor && (
                 <div>
-                    <button className="button is-primary" onClick={() => navigate(`/posts/edit/${post.id}`)}>Edit</button>
-                    <button className="button is-secondary">Delete</button>
+                    {postToDelete === post.id ? (
+                                    <>
+                                        <button type="button is-danger card-footer-item" onClick={handleDelete} id={post.id}>Confirm</button>
+                                        <button type="button is-primary card-footer-item"  onClick={() => confirmDelete(null)}>Cancel</button>
+                                    </>
+                                    ) : (
+                                        <>
+                                            <button className="button is-link card-footer-item" onClick={() => navigate(`/posts/edit/${post.id}`)}>Edit</button>
+                                            <button className="button is-danger card-footer-item" onClick={() => confirmDelete(post.id)}>Delete</button>
+                                            {/* <button className="button is-primary card-footer-item">Publish</button>
+                                            <button className="button is-warning card-footer-item">Unpublish</button> */}
+                                        </>
+                                    )}
                 </div>
             )}
                         </div>
